@@ -1,0 +1,92 @@
+class Random:
+    def __init__(self, seed):
+        self.generator = seed 
+
+    def next(self, range):
+        self.generator = (16807*self.generator) % (2147483647) #formula that generates all possiible outcomes 
+        return self.generator % range 
+
+    def choose(self, characters):
+        return characters[self.next(len(characters))]
+
+class Words:
+    def __init__(self, seed):
+        self.__first = "" # private string first
+        self.__follow = {}  # private dictionary follow
+        self.__random = Random(seed) # private var random (instance of Random)
+
+    def add(self, word):
+        self.__first += word[0]
+        for x in range(0,(len(word)-1)):
+            if word[x] in self.__follow:
+                self.__follow[word[x]] += word[x + 1]
+            else:
+                self.__follow[word[x]] = [word[x + 1]]
+        return None 
+
+    def make(self, size):
+		
+        example = ""
+        example += self.__random.choose(self.__first)
+        
+        while len(example) < size:
+            lastletter = example[len(example)-1]
+            if lastletter in self.__follow:
+                example += self.__random.choose(self.__follow[lastletter])
+            else:
+                example += self.__random.choose(self.__first)
+                
+        print(example)
+
+#Below are the tests, each will output a resemblance of the word given.
+
+prez = Words(101)
+prez.add('Washington')
+prez.add('Adams')
+prez.add('Jefferson')
+prez.add('Madison')
+prez.add('Monroe')
+prez.add('Adams')
+prez.add('Jackson')
+prez.add('Vanburen')
+prez.add('Harrison')
+prez.add('Tyler')
+prez.add('Polk')
+prez.add('Taylor')
+prez.add('Fillmore')
+prez.add('Pierce')
+prez.add('Buchanan')
+prez.add('Lincoln')
+prez.add('Johnson')
+prez.add('Grant')
+prez.add('Hayes')
+prez.add('Garfield')
+prez.add('Arthur')
+prez.add('Cleveland')
+prez.add('Harrison')
+prez.add('Cleveland')
+prez.add('Mckinley')
+prez.add('Roosevelt')
+prez.add('Taft')
+prez.add('Wilson')
+prez.add('Harding')
+prez.add('Coolidge')
+prez.add('Hoover')
+prez.add('Roosevelt')
+prez.add('Truman')
+prez.add('Eisenhower')
+prez.add('Kennedy')
+prez.add('Johnson')
+prez.add('Nixon')
+prez.add('Ford')
+prez.add('Carter')
+prez.add('Reagan')
+prez.add('Bush')
+prez.add('Clinton')
+prez.add('Bush')
+prez.add('Obama')
+prez.add('Trump')
+
+for i in range(0,37):
+    prez.make(7)
+    i+1
